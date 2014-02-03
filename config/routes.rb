@@ -5,7 +5,7 @@ Saraluforecast::Application.routes.draw do
   end
 
   resources :forecasts
-  
+
 
   root to: 'trips#index'
 

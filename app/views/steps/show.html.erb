@@ -30,5 +30,5 @@
   <%= @step.trip_id %>
 </p>
 
-<%= link_to 'Edit', edit_step_path(@step) %> |
-<%= link_to 'Back', steps_path %>
+<%= link_to 'Edit', edit_trip_step_path(@trip, @step) %> |
+<%= link_to 'Back', trip_steps_path(@trip) %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140203031854) do
+ActiveRecord::Schema.define(version: 20140203033914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,12 +43,12 @@ ActiveRecord::Schema.define(version: 20140203031854) do
     t.float    "lat"
     t.date     "arrival"
     t.integer  "stay"
-    t.integer  "trip_id_id"
+    t.integer  "trip_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "steps", ["trip_id_id"], name: "index_steps_on_trip_id_id", using: :btree
+  add_index "steps", ["trip_id"], name: "index_steps_on_trip_id", using: :btree
 
   create_table "trips", force: true do |t|
     t.string   "name"

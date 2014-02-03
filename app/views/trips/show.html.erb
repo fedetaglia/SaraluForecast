@@ -10,5 +10,39 @@
   <%= @trip.description %>
 </p>
 
+
+<%= link_to 'New Step', new_trip_step_path(@trip) %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Location</th>
+      <th>Lon</th>
+      <th>Lat</th>
+      <th>Arrival</th>
+      <th>Stay</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @trip.steps.each do |step| %>
+      <tr>
+        <td><%= step.location %></td>
+        <td><%= step.lon %></td>
+        <td><%= step.lat %></td>
+        <td><%= step.arrival %></td>
+        <td><%= step.stay %></td>
+        <td><%= link_to 'Show', [@trip, step] %></td>
+        <td><%= link_to 'Edit', edit_trip_step_path(@trip, step) %></td>
+        <td><%= link_to 'Destroy', [@trip, step], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
 <%= link_to 'Edit', edit_trip_path(@trip) %> |
 <%= link_to 'Back', trips_path %>

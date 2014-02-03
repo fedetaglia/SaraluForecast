@@ -5,7 +5,6 @@ class StepsController < ApplicationController
   # GET /steps
   # GET /steps.json
   def index
-    @steps = @trip.steps
   end
 
   # GET /steps/1
@@ -15,7 +14,7 @@ class StepsController < ApplicationController
 
   # GET /steps/new
   def new
-    @step = Step.new
+    @step = @trip.steps.new
   end
 
   # GET /steps/1/edit
@@ -25,7 +24,7 @@ class StepsController < ApplicationController
   # POST /steps
   # POST /steps.json
   def create
-    @step = Step.new(step_params)
+    @step = @trip.steps.new(step_params)
 
     respond_to do |format|
       if @step.save
@@ -76,6 +75,6 @@ class StepsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def step_params
-      params.require(:step).permit(:location, :lon, :lat, :arrival, :stay, :trip_id_id)
+      params.require(:step).permit(:location, :lon, :lat, :arrival, :stay, :trip_id)
     end
 end
