@@ -1,0 +1,37 @@
+<h1>Listing steps</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Location</th>
+      <th>Lon</th>
+      <th>Lat</th>
+      <th>Arrival</th>
+      <th>Stay</th>
+      <th>Trip</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @steps.each do |step| %>
+      <tr>
+        <td><%= step.location %></td>
+        <td><%= step.lon %></td>
+        <td><%= step.lat %></td>
+        <td><%= step.arrival %></td>
+        <td><%= step.stay %></td>
+        <td><%= step.trip_id %></td>
+        <td><%= link_to 'Show', step %></td>
+        <td><%= link_to 'Edit', edit_step_path(step) %></td>
+        <td><%= link_to 'Destroy', step, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Step', new_step_path %>

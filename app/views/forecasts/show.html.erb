@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @forecast.location %>
+</p>
+
+<p>
+  <strong>Datetime:</strong>
+  <%= @forecast.datetime %>
+</p>
+
+<p>
+  <strong>Lon:</strong>
+  <%= @forecast.lon %>
+</p>
+
+<p>
+  <strong>Lat:</strong>
+  <%= @forecast.lat %>
+</p>
+
+<p>
+  <strong>Temperature:</strong>
+  <%= @forecast.temperature %>
+</p>
+
+<p>
+  <strong>Temp min:</strong>
+  <%= @forecast.temp_min %>
+</p>
+
+<p>
+  <strong>Temp max:</strong>
+  <%= @forecast.temp_max %>
+</p>
+
+<p>
+  <strong>Pressure:</strong>
+  <%= @forecast.pressure %>
+</p>
+
+<p>
+  <strong>Humidity:</strong>
+  <%= @forecast.humidity %>
+</p>
+
+<p>
+  <strong>Wind speed:</strong>
+  <%= @forecast.wind_speed %>
+</p>
+
+<p>
+  <strong>Wind deg:</strong>
+  <%= @forecast.wind_deg %>
+</p>
+
+<%= link_to 'Edit', edit_forecast_path(@forecast) %> |
+<%= link_to 'Back', forecasts_path %>

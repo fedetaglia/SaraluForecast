@@ -1,0 +1,47 @@
+<h1>Listing forecasts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Location</th>
+      <th>Datetime</th>
+      <th>Lon</th>
+      <th>Lat</th>
+      <th>Temperature</th>
+      <th>Temp min</th>
+      <th>Temp max</th>
+      <th>Pressure</th>
+      <th>Humidity</th>
+      <th>Wind speed</th>
+      <th>Wind deg</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @forecasts.each do |forecast| %>
+      <tr>
+        <td><%= forecast.location %></td>
+        <td><%= forecast.datetime %></td>
+        <td><%= forecast.lon %></td>
+        <td><%= forecast.lat %></td>
+        <td><%= forecast.temperature %></td>
+        <td><%= forecast.temp_min %></td>
+        <td><%= forecast.temp_max %></td>
+        <td><%= forecast.pressure %></td>
+        <td><%= forecast.humidity %></td>
+        <td><%= forecast.wind_speed %></td>
+        <td><%= forecast.wind_deg %></td>
+        <td><%= link_to 'Show', forecast %></td>
+        <td><%= link_to 'Edit', edit_forecast_path(forecast) %></td>
+        <td><%= link_to 'Destroy', forecast, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Forecast', new_forecast_path %>

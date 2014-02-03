@@ -1,0 +1,61 @@
+<%= form_for(@forecast) do |f| %>
+  <% if @forecast.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@forecast.errors.count, "error") %> prohibited this forecast from being saved:</h2>
+
+      <ul>
+      <% @forecast.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :location %><br>
+    <%= f.text_field :location %>
+  </div>
+  <div class="field">
+    <%= f.label :datetime %><br>
+    <%= f.datetime_select :datetime %>
+  </div>
+  <div class="field">
+    <%= f.label :lon %><br>
+    <%= f.text_field :lon %>
+  </div>
+  <div class="field">
+    <%= f.label :lat %><br>
+    <%= f.text_field :lat %>
+  </div>
+  <div class="field">
+    <%= f.label :temperature %><br>
+    <%= f.text_field :temperature %>
+  </div>
+  <div class="field">
+    <%= f.label :temp_min %><br>
+    <%= f.text_field :temp_min %>
+  </div>
+  <div class="field">
+    <%= f.label :temp_max %><br>
+    <%= f.text_field :temp_max %>
+  </div>
+  <div class="field">
+    <%= f.label :pressure %><br>
+    <%= f.number_field :pressure %>
+  </div>
+  <div class="field">
+    <%= f.label :humidity %><br>
+    <%= f.number_field :humidity %>
+  </div>
+  <div class="field">
+    <%= f.label :wind_speed %><br>
+    <%= f.text_field :wind_speed %>
+  </div>
+  <div class="field">
+    <%= f.label :wind_deg %><br>
+    <%= f.text_field :wind_deg %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

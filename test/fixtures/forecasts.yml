@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  location: MyString
+  datetime: 2014-02-03 12:01:49
+  lon: 1.5
+  lat: 1.5
+  temperature: 1.5
+  temp_min: 1.5
+  temp_max: 1.5
+  pressure: 1
+  humidity: 1
+  wind_speed: 1.5
+  wind_deg: 1.5
+
+two:
+  location: MyString
+  datetime: 2014-02-03 12:01:49
+  lon: 1.5
+  lat: 1.5
+  temperature: 1.5
+  temp_min: 1.5
+  temp_max: 1.5
+  pressure: 1
+  humidity: 1
+  wind_speed: 1.5
+  wind_deg: 1.5
