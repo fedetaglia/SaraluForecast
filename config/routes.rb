@@ -1,9 +1,16 @@
 Saraluforecast::Application.routes.draw do
+
+  resources :trips do
+    resources :steps
+  end
+
   resources :forecasts
+  
 
-  resources :steps
+  root to: 'trips#index'
 
-  resources :trips
+  get ':action', to: 'pages#action'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

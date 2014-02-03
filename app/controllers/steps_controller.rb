@@ -1,10 +1,11 @@
 class StepsController < ApplicationController
+  before_action :set_trip
   before_action :set_step, only: [:show, :edit, :update, :destroy]
 
   # GET /steps
   # GET /steps.json
   def index
-    @steps = Step.all
+    @steps = @trip.steps
   end
 
   # GET /steps/1
@@ -62,6 +63,12 @@ class StepsController < ApplicationController
   end
 
   private
+
+    def set_trip
+      if params[:trip_id].present?
+        @trip = Trip.find_by_id params[:trip_id]
+      end
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_step
       @step = Step.find(params[:id])

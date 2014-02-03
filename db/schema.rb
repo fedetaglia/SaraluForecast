@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140203010149) do
+ActiveRecord::Schema.define(version: 20140203031854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,11 @@ ActiveRecord::Schema.define(version: 20140203010149) do
     t.float    "wind_deg"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "forecasts_steps", id: false, force: true do |t|
+    t.integer "forecast_id"
+    t.integer "step_id"
   end
 
   create_table "steps", force: true do |t|

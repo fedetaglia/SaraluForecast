@@ -6,9 +6,14 @@
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
+
+<%= render partial: 'shared/header'%>  
+
 <body>
 
 <%= yield %>
+
+<%= render partial: 'shared/footer'%>  
 
 </body>
 </html>
