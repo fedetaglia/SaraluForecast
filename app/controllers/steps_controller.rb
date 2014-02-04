@@ -31,7 +31,7 @@ class StepsController < ApplicationController
     respond_to do |format|
       if @step.save
         make_forecast
-        if @forecast.present?
+        if !@forecast_empty
           format.html { redirect_to [@trip, @step], notice: 'Step was successfully created.' }
           format.json { render action: 'show', status: :created, location: @step }
         else
@@ -54,6 +54,7 @@ class StepsController < ApplicationController
       if @step.update(step_params)
         if !have_forecast?
           make_forecast
+          binding.pry
           if !@forecast_empty
             format.html { redirect_to [@trip, @step], notice: 'Step was successfully updated.' }
             format.json { head :no_content }
