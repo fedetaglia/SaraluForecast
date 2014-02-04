@@ -4,29 +4,14 @@
 
 <br><br>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @trips.each do |trip| %>
-      <tr>
-        <td><%= trip.name %></td>
-        <td><%= trip.description %></td>
-        <td><%= link_to 'Show', trip %></td>
-        <td><%= link_to 'Edit', edit_trip_path(trip) %></td>
-        <td><%= link_to 'Destroy', trip, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
+<% @trips.each do |trip| %>
+  <h3><%= link_to trip.name, trip %></h3>
+  <p><%= trip.description %></p>
+  <p>
+    <%= link_to 'edit trip', edit_trip_path(trip) %>
+    <%= link_to 'destroy it', trip, method: :delete, data: { confirm: 'Are you sure?' } %>
+  </p>
+<% end %>
+  
 <br>
 

@@ -52,10 +52,9 @@ class StepsController < ApplicationController
   def update
     respond_to do |format|
       if @step.update(step_params)
-        binding.pry
         if !have_forecast?
           make_forecast
-          if @forecast.present?
+          if !@forecast_empty
             format.html { redirect_to [@trip, @step], notice: 'Step was successfully updated.' }
             format.json { head :no_content }
           else
@@ -72,7 +71,9 @@ class StepsController < ApplicationController
         format.html { render action: 'edit' }
         format.json { render json: @step.errors, status: :unprocessable_entity }
       end
+    
     end
+
   end
 
   # DELETE /steps/1
@@ -124,13 +125,7 @@ class StepsController < ApplicationController
       search = URI.escape(string)
       @answer = HTTParty.get(search) 
 
-      if @answer['city'] != nil
-
-        # @answer['list'].each do |day|
-        #   if @step.arrive_on == (Time.at day['dt']).to_date
-        #     @forecast = day
-        #   end
-        # end
+      if @answer['city'] != nil && @answer['list'] != nil
 
         arrive_on_index = @answer['list'].index {|day| (Time.at day['dt']).to_date == @step.arrive_on }
 
@@ -161,9 +156,11 @@ class StepsController < ApplicationController
         @step.location = @answer['city']['name'] + "," + @answer['city']['country']
         @step.lon = @answer['city']['coord']['lon']
         @step.lat = @answer['city']['coord']['lat']
-
         @step.save
+      else
+        @forecast_empty = true
       end
+
     end
 
 end
