@@ -3,9 +3,10 @@ class ForecastsController < ApplicationController
 
   # GET /forecasts
   # GET /forecasts.json
-  def index
-    @forecasts = Forecast.all
-  end
+  
+  # def index
+  #   @forecasts = Forecast.all
+  # end
 
   # GET /forecasts/1
   # GET /forecasts/1.json

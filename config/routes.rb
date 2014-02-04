@@ -1,5 +1,10 @@
 Saraluforecast::Application.routes.draw do
 
+
+  root to: 'pages#index'
+  
+  devise_for :users
+
   resources :trips do
     resources :steps
   end
@@ -7,7 +12,7 @@ Saraluforecast::Application.routes.draw do
   resources :forecasts
 
 
-  root to: 'trips#index'
+  
 
   get ':action', to: 'pages#action'
 

@@ -45,10 +45,13 @@ end
 # gem 'debugger', group: [:development, :test]
 
 
-# my gem
-require "json"
-require "uri"
-require "httparty"
+# gem for API query
+gem "httparty"
 
-require 'pry'
-require 'pry-debugger'
+# devise for authentication
+gem 'devise'
+
+
+# gem for debugging
+gem 'pry'
+gem 'pry-debugger'
