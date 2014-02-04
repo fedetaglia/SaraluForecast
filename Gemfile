@@ -43,3 +43,12 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+
+# my gem
+require "json"
+require "uri"
+require "httparty"
+
+require 'pry'
+require 'pry-debugger'

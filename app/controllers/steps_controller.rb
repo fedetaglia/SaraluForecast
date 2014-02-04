@@ -28,8 +28,16 @@ class StepsController < ApplicationController
 
     respond_to do |format|
       if @step.save
-        format.html { redirect_to @step, notice: 'Step was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @step }
+        make_forecast
+        if @forecast.present?
+          format.html { redirect_to [@trip, @step], notice: 'Step was successfully created.' }
+          format.json { render action: 'show', status: :created, location: @step }
+        else
+          format.html { 
+            flash.now[:notice] = "Cannot make forecast for #{@step.location}. City not found!" 
+            render action: 'new' }
+          format.json { render json: @step.errors, status: :unprocessable_entity }
+        end
       else
         format.html { render action: 'new' }
         format.json { render json: @step.errors, status: :unprocessable_entity }
@@ -42,7 +50,21 @@ class StepsController < ApplicationController
   def update
     respond_to do |format|
       if @step.update(step_params)
-        format.html { redirect_to @step, notice: 'Step was successfully updated.' }
+        binding.pry
+        if !have_forecast?
+          make_forecast
+          if @forecast.present?
+            format.html { redirect_to [@trip, @step], notice: 'Step was successfully updated.' }
+            format.json { head :no_content }
+          else
+            format.html { 
+              flash.now[:notice] = "Cannot make forecast for #{@step.location}. City not found!" 
+              render action: 'edit' 
+              }
+            format.json { render json: @step.errors, status: :unprocessable_entity }      
+          end
+        end
+        format.html { redirect_to [@trip, @step], notice: 'Step was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -56,7 +78,7 @@ class StepsController < ApplicationController
   def destroy
     @step.destroy
     respond_to do |format|
-      format.html { redirect_to steps_url }
+      format.html { redirect_to @trip }
       format.json { head :no_content }
     end
   end
@@ -75,6 +97,51 @@ class StepsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def step_params
-      params.require(:step).permit(:location, :lon, :lat, :arrival, :stay, :trip_id)
+      params.require(:step).permit(:location, :lon, :lat, :arrive_on, :stay, :trip_id)
     end
+
+
+    def have_forecast?
+      true
+    end
+
+
+
+    def make_forecast
+
+      position = @step.location
+      string = "http://api.openweathermap.org/data/2.5/forecast/daily?q=" + position + '&type=accurate&&cnt=14&units=metric&APPID=f1b24a078a85fd4bfcd63f4d91f4dd4a'
+      search = URI.escape(string)
+      @answer = HTTParty.get(search) 
+
+      if @answer['city'] != nil
+        @answer['list'].each do |day|
+          if @step.arrive_on == (Time.at day['dt']).to_date
+            @forecast = day
+          end
+        end
+        add_forecast = Forecast.new(
+            :location => @answer['city']['name'],
+            :country => @answer['city']['country'],
+            :lon => @answer['city']['coord']['lon'],
+            :lat => @answer['city']['coord']['lat'],
+            :day => (Time.at @forecast['dt']).to_date,
+            :weather => @forecast['weather'][0]['main'],
+            :description => @forecast['weather'][0]['description'],
+            :temp_mor => @forecast['temp']['morn'],
+            :temp_day => @forecast['temp']['day'],
+            :temp_eve => @forecast['temp']['eve'],
+            :temp_nig => @forecast['temp']['night'],
+            :pressure => @forecast['pressure'],
+            :humidity =>@forecast['humidity'],
+            :speed => @forecast['speed'],
+            :deg => @forecast['deg'],
+            :clouds => @forecast['clouds'],
+            :rain => @forecast['rain']
+          )
+        @step.forecasts << add_forecast
+        @step.save
+      end
+    end
+
 end

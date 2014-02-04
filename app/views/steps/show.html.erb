@@ -16,8 +16,8 @@
 </p>
 
 <p>
-  <strong>Arrival:</strong>
-  <%= @step.arrival %>
+  <strong>Arrive on:</strong>
+  <%= @step.arrive_on %>
 </p>
 
 <p>
@@ -31,4 +31,5 @@
 </p>
 
 <%= link_to 'Edit', edit_trip_step_path(@trip, @step) %> |
-<%= link_to 'Back', trip_steps_path(@trip) %>
+<%= link_to 'Destroy', [@trip, @step], method: :delete, data: { confirm: 'Are you sure?' } %>
+<%= link_to 'Back', @trip %>

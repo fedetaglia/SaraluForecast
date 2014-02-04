@@ -19,10 +19,10 @@
       <th>Location</th>
       <th>Lon</th>
       <th>Lat</th>
-      <th>Arrival</th>
+      <th>Arrive on</th>
       <th>Stay</th>
-      <th></th>
-      <th></th>
+      <th>Weather</th>
+      <th>T max °C</th>
       <th></th>
     </tr>
   </thead>
@@ -30,14 +30,15 @@
   <tbody>
     <% @trip.steps.each do |step| %>
       <tr>
-        <td><%= step.location %></td>
+        <td><%= link_to step.location, [@trip, step] %></td>
         <td><%= step.lon %></td>
         <td><%= step.lat %></td>
-        <td><%= step.arrival %></td>
+        <td><%= step.arrive_on %></td>
         <td><%= step.stay %></td>
-        <td><%= link_to 'Show', [@trip, step] %></td>
+        <td><%= step.forecasts.order('created_at desc').first.description %></td>
+        <td><%= step.forecasts.order('created_at desc').first.temp_day %></td>
         <td><%= link_to 'Edit', edit_trip_step_path(@trip, step) %></td>
-        <td><%= link_to 'Destroy', [@trip, step], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        
       </tr>
     <% end %>
   </tbody>

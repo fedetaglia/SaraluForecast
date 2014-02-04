@@ -69,6 +69,9 @@ class ForecastsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def forecast_params
-      params.require(:forecast).permit(:location, :datetime, :lon, :lat, :temperature, :temp_min, :temp_max, :pressure, :humidity, :wind_speed, :wind_deg)
+      params.require(:forecast).permit(:location, :country, :lon, :lat, :day, :weather, :description, :temp_mor, :temp_day, :temp_eve, :temp_nig, :pressure, :humidity, :speed, :deg, :clouds, :rain)
     end
 end
+
+
+

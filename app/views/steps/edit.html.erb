@@ -1,6 +1,7 @@
 <h1>Editing step</h1>
+<p id="notice"><%= notice %></p>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @step %> |
-<%= link_to 'Back', @trip %>
+<%= link_to 'Show', [@trip, @step] %> |
+<%= link_to 'Back', trip_path(@trip) %>

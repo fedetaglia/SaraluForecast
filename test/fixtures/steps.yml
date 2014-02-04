@@ -4,7 +4,7 @@ one:
   location: MyString
   lon: MyString
   lat: MyString
-  arrival: 2014-02-03
+  arrive_on: 2014-02-03
   stay: 1
   trip_id_id: 
 
@@ -12,6 +12,6 @@ two:
   location: MyString
   lon: MyString
   lat: MyString
-  arrival: 2014-02-03
+  arrive_on: 2014-02-03
   stay: 1
   trip_id_id: 

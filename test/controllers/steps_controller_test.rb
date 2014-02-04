@@ -18,7 +18,7 @@ class StepsControllerTest < ActionController::TestCase
 
   test "should create step" do
     assert_difference('Step.count') do
-      post :create, step: { arrival: @step.arrival, lat: @step.lat, location: @step.location, lon: @step.lon, stay: @step.stay, trip_id_id: @step.trip_id_id }
+      post :create, step: { arrive_on: @step.arrive_on, lat: @step.lat, location: @step.location, lon: @step.lon, stay: @step.stay, trip_id_id: @step.trip_id_id }
     end
 
     assert_redirected_to step_path(assigns(:step))
@@ -35,7 +35,7 @@ class StepsControllerTest < ActionController::TestCase
   end
 
   test "should update step" do
-    patch :update, id: @step, step: { arrival: @step.arrival, lat: @step.lat, location: @step.location, lon: @step.lon, stay: @step.stay, trip_id_id: @step.trip_id_id }
+    patch :update, id: @step, step: { arrive_on: @step.arrive_on, lat: @step.lat, location: @step.location, lon: @step.lon, stay: @step.stay, trip_id_id: @step.trip_id_id }
     assert_redirected_to step_path(assigns(:step))
   end
 

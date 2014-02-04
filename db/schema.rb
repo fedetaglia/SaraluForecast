@@ -11,23 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140203033914) do
+ActiveRecord::Schema.define(version: 20140204011407) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "forecasts", force: true do |t|
     t.string   "location"
-    t.datetime "datetime"
+    t.string   "country"
     t.float    "lon"
     t.float    "lat"
-    t.float    "temperature"
-    t.float    "temp_min"
-    t.float    "temp_max"
-    t.integer  "pressure"
+    t.datetime "day"
+    t.string   "weather"
+    t.string   "description"
+    t.float    "temp_mor"
+    t.float    "temp_day"
+    t.float    "temp_eve"
+    t.float    "temp_nig"
+    t.float    "pressure"
     t.integer  "humidity"
-    t.float    "wind_speed"
-    t.float    "wind_deg"
+    t.float    "speed"
+    t.integer  "deg"
+    t.integer  "clouds"
+    t.integer  "rain"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -41,7 +47,7 @@ ActiveRecord::Schema.define(version: 20140203033914) do
     t.string   "location"
     t.float    "lon"
     t.float    "lat"
-    t.date     "arrival"
+    t.date     "arrive_on"
     t.integer  "stay"
     t.integer  "trip_id"
     t.datetime "created_at"
