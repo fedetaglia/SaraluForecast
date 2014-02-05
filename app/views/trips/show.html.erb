@@ -1,6 +1,6 @@
 <p>
   <strong>Name:</strong>
-  <%= @trip.name %>
+  <%= link_to @trip.name, edit_trip_path(@trip) %>
 </p>
 
 <p>
@@ -8,8 +8,10 @@
   <%= @trip.description %>
 </p>
 
-
-<%= link_to 'New Step', new_trip_step_path(@trip) %>
+<%= form_tag(new_trip_step_path(@trip), method:"get") do |f|%>
+  <%= text_field_tag(:location,'',options = {:placeholder => 'City,Country'}) %>
+  <%= submit_tag('add Step') %>  
+<% end %>
 
 <table>
   <thead>
@@ -19,7 +21,8 @@
       <th>Lat</th>
       <th>Day</th>
       <th>Weather</th>
-      <th>T max °C</th>
+      <th>Temperature</th>
+      <th>forecast created at</th>
     </tr>
   </thead>
 
@@ -36,9 +39,16 @@
             <td></td>
             <td></td>
           <%end%>
-          <td><%= step.arrive_on + day %></td>
-          <td><%= step.forecasts.where('day = ?', step.arrive_on + day).order('created_at desc').first.description %></td>
-          <td><%= step.forecasts.where('day = ?', step.arrive_on + day).order('created_at desc').first.temp_day %>
+            <td><%= step.arrive_on + day %></td>
+            <%if step.forecasts.where('day = ?', step.arrive_on + day).order('created_at desc').first != nil %>
+              <td><%= step.forecasts.where('day = ?', step.arrive_on + day).order('created_at desc').first.description %></td>
+              <td><%= step.forecasts.where('day = ?', step.arrive_on + day).order('created_at desc').first.temp_day %></td>
+              <td><%= step.forecasts.where('day = ?', step.arrive_on + day).order('created_at desc').first.created_at.in_time_zone("Sydney") %></td>
+            <%else%>
+              <td></td>
+              <td></td>
+              <td></td>
+            <%end%>
         </tr>
       <%end%>
 
@@ -47,5 +57,3 @@
 </table>
 
 
-<%= link_to 'Edit', edit_trip_path(@trip) %> |
-<%= link_to 'Back', trips_path %>

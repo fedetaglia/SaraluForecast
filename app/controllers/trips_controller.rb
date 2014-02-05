@@ -11,6 +11,11 @@ class TripsController < ApplicationController
   # GET /trips/1.json
   def show
     @steps = @trip.steps.order('arrive_on asc')
+    @steps.each do |step|
+      if !step.have_updated_forecast?
+        step.make_forecast
+      end
+    end
   end
 
   # GET /trips/new

@@ -16,6 +16,18 @@ class StepsController < ApplicationController
 
   # GET /steps/new
   def new
+    user_input = params[:location]
+    string = "http://api.openweathermap.org/data/2.5/find?q=" + user_input + "&units=metric&mode=json&APPID=458002016608cfef4cc4518dfa32cd04"   
+    answer = HTTParty.get(URI.escape(string)) 
+
+    if answer['list'].count == 0
+        # back to trip_path motice = 'location not found'
+    else
+      @locations = []
+      answer['list'].each do |loc|
+        @locations << loc['name'] + ',' + loc['sys']['country']
+      end
+    end
     @step = @trip.steps.new
   end
 
@@ -27,36 +39,57 @@ class StepsController < ApplicationController
   # POST /steps.json
   def create
     @step = @trip.steps.new(step_params)
+    @locations = JSON params['locations']
 
     respond_to do |format|
-      if @step.save
-        make_forecast
-        if !@forecast_empty
-          format.html { redirect_to [@trip, @step], notice: 'Step was successfully created.' }
-          format.json { render action: 'show', status: :created, location: @step }
+      if @step.valid?
+        if @step.save
+          if @step.have_updated_forecast? # return true or false
+            format.html { redirect_to [@trip, @step], notice: 'Step was successfully created. Updated forecast available.' }
+            format.json { render action: 'show', status: :created, location: @step }
+          else
+            if @step.should_make_forecast?
+              if @step.make_forecast == true # return true , false or nil
+                format.html { redirect_to [@trip, @step], notice: 'Step was successfully created. New forecast requested.' }
+                format.json { render action: 'show', status: :created, location: @step }
+              else @step.make_forecast == false
+                  format.html { 
+                    flash.now[:notice] = "Cannot make forecast for #{@step.location}. City not found!" 
+                    render action: 'new' }
+                  format.json { render json: @step.errors, status: :unprocessable_entity }
+              end
+            else
+                format.html { redirect_to [@trip, @step], notice: 'Step was successfully created. No forecast available for the arrival.' }
+                format.json { render action: 'show', status: :created, location: @step }   
+            end         
+          end
         else
-          format.html { 
-            flash.now[:notice] = "Cannot make forecast for #{@step.location}. City not found!" 
-            render action: 'new' }
+          format.html { render action: 'new' }
           format.json { render json: @step.errors, status: :unprocessable_entity }
         end
       else
-        format.html { render action: 'new' }
+        format.html { 
+          flash.now[:notice] = "Cannot make forecast for #{@step.location}. Arrive on should be in the past!" 
+          render action: 'new' }
         format.json { render json: @step.errors, status: :unprocessable_entity }
       end
+        
     end
+
   end
 
   # PATCH/PUT /steps/1
   # PATCH/PUT /steps/1.json
   def update
+
     respond_to do |format|
       if @step.update(step_params)
-        if !have_forecast?
-          make_forecast
-          binding.pry
-          if !@forecast_empty
-            format.html { redirect_to [@trip, @step], notice: 'Step was successfully updated.' }
+        if @step.have_updated_forecast? # return true or false
+          format.html { redirect_to [@trip, @step], notice: 'Step was successfully updated. Update forecast available.' }
+          format.json { head :no_content }
+        else
+          if @step.make_forecast # return true or nil
+            format.html { redirect_to [@trip, @step], notice: 'Step was successfully updated.New forecast requested.' }
             format.json { head :no_content }
           else
             format.html { 
@@ -66,13 +99,10 @@ class StepsController < ApplicationController
             format.json { render json: @step.errors, status: :unprocessable_entity }      
           end
         end
-        format.html { redirect_to [@trip, @step], notice: 'Step was successfully updated. No new forecast needed' }
-        format.json { head :no_content }
       else
         format.html { render action: 'edit' }
         format.json { render json: @step.errors, status: :unprocessable_entity }
-      end
-    
+      end 
     end
 
   end
@@ -104,64 +134,5 @@ class StepsController < ApplicationController
       params.require(:step).permit(:location, :lon, :lat, :arrive_on, :stay, :trip_id)
     end
 
-
-    def have_forecast?
-      # look for last forecast for the step in a specific date
-
-      latest = @step.forecasts.where('day = ?', @step.arrive_on.beginning_of_day).order('created_at desc').first
-      
-      # if I have it I check if it's new (created today) and if the user has or not changed the location
-      if latest.present?
-        Time.now.to_date == latest.created_at.to_date && @step.location == latest.location + ',' + latest.country
-      else
-        false
-      end
-    end
-
-
-    def make_forecast
-
-      position = @step.location
-      string = "http://api.openweathermap.org/data/2.5/forecast/daily?q=" + position + '&type=accurate&&cnt=14&units=metric&APPID=f1b24a078a85fd4bfcd63f4d91f4dd4a'
-      search = URI.escape(string)
-      @answer = HTTParty.get(search) 
-
-      if @answer['city'] != nil && @answer['list'] != nil
-
-        arrive_on_index = @answer['list'].index {|day| (Time.at day['dt']).to_date == @step.arrive_on }
-
-        arrive_on_index.upto(arrive_on_index+@step.stay-1) do |index|    
-          forecast = @answer['list'][index]
-          add_forecast = Forecast.new(
-              :location => @answer['city']['name'],
-              :country => @answer['city']['country'],
-              :lon => @answer['city']['coord']['lon'],
-              :lat => @answer['city']['coord']['lat'],
-              :day => (Time.at forecast['dt']).to_date,
-              :weather => forecast['weather'][0]['main'],
-              :description => forecast['weather'][0]['description'],
-              :temp_mor => forecast['temp']['morn'],
-              :temp_day => forecast['temp']['day'],
-              :temp_eve => forecast['temp']['eve'],
-              :temp_nig => forecast['temp']['night'],
-              :pressure => forecast['pressure'],
-              :humidity =>forecast['humidity'],
-              :speed => forecast['speed'],
-              :deg => forecast['deg'],
-              :clouds => forecast['clouds'],
-              :rain => forecast['rain']
-            )
-          @step.forecasts << add_forecast
-        end
-
-        @step.location = @answer['city']['name'] + "," + @answer['city']['country']
-        @step.lon = @answer['city']['coord']['lon']
-        @step.lat = @answer['city']['coord']['lat']
-        @step.save
-      else
-        @forecast_empty = true
-      end
-
-    end
 
 end

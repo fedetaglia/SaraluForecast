@@ -12,8 +12,6 @@ Saraluforecast::Application.routes.draw do
   resources :forecasts
 
 
-  
-
   get ':action', to: 'pages#action'
 
 
