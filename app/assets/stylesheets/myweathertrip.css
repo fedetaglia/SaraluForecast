@@ -1,7 +1,7 @@
 
 body {
   min-height: 500px;
-  background-image: url('background-light.png');
+  background-image: url(background-light.png);
   background-repeat: no-repeat;
 }
 
