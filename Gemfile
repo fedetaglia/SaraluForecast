@@ -8,6 +8,10 @@ gem 'pg'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
+#bootstrap for sylesheets
+#gem 'twitter-bootstrap-rails'
+gem 'bootstrap-sass', '~> 3.1.0'
+
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -55,3 +59,9 @@ gem 'devise'
 # gem for debugging
 gem 'pry'
 gem 'pry-debugger'
+
+
+# Hopefully this gem will fix my assets issue in Heroku!!
+group :production do
+  gem 'rails_12factor'
+end

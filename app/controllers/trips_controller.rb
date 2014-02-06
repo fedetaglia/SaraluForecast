@@ -4,7 +4,8 @@ class TripsController < ApplicationController
   # GET /trips
   # GET /trips.json
   def index
-    @trips = current_user.trips.all
+    @trips = current_user.trips.order(created_at: :desc).all
+    @trip = current_user.trips.new
   end
 
   # GET /trips/1
@@ -34,7 +35,7 @@ class TripsController < ApplicationController
 
     respond_to do |format|
       if @trip.save
-        format.html { redirect_to @trip, notice: 'Trip was successfully created.' }
+        format.html { redirect_to trips_path, notice: 'Trip was successfully created.' }
         format.json { render action: 'show', status: :created, location: @trip }
       else
         format.html { render action: 'new' }

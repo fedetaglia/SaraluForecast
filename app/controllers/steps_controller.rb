@@ -45,12 +45,12 @@ class StepsController < ApplicationController
       if @step.valid?
         if @step.save
           if @step.have_updated_forecast? # return true or false
-            format.html { redirect_to [@trip, @step], notice: 'Step was successfully created. Updated forecast available.' }
+            format.html { redirect_to @trip, notice: 'Step was successfully created. Updated forecast available.' }
             format.json { render action: 'show', status: :created, location: @step }
           else
             if @step.should_make_forecast?
               if @step.make_forecast == true # return true , false or nil
-                format.html { redirect_to [@trip, @step], notice: 'Step was successfully created. New forecast requested.' }
+                format.html { redirect_to @trip, notice: 'Step was successfully created. New forecast requested.' }
                 format.json { render action: 'show', status: :created, location: @step }
               else @step.make_forecast == false
                   format.html { 
@@ -59,7 +59,7 @@ class StepsController < ApplicationController
                   format.json { render json: @step.errors, status: :unprocessable_entity }
               end
             else
-                format.html { redirect_to [@trip, @step], notice: 'Step was successfully created. No forecast available for the arrival.' }
+                format.html { redirect_to @trip, notice: 'Step was successfully created. No forecast available for the arrival.' }
                 format.json { render action: 'show', status: :created, location: @step }   
             end         
           end

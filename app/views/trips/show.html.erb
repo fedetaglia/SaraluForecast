@@ -1,12 +1,8 @@
-<p>
-  <strong>Name:</strong>
-  <%= link_to @trip.name, edit_trip_path(@trip) %>
-</p>
+<%= content_for(:title, (link_to @trip.name, edit_trip_path(@trip))) %>
 
-<p>
-  <strong>Description:</strong>
-  <%= @trip.description %>
-</p>
+<%= @trip.description %>
+
+
 
 <%= form_tag(new_trip_step_path(@trip), method:"get") do |f|%>
   <%= text_field_tag(:location,'',options = {:placeholder => 'City,Country'}) %>
@@ -17,12 +13,14 @@
   <thead>
     <tr>
       <th>Location</th>
-      <th>Lon</th>
-      <th>Lat</th>
       <th>Day</th>
+      <th></th>
       <th>Weather</th>
       <th>Temperature</th>
-      <th>forecast created at</th>
+      <th>wind speed</th>
+      <th>%clouds</th>
+      <th>rain mm</th>
+      <th>last forecast</th>
     </tr>
   </thead>
 
@@ -32,18 +30,19 @@
         <tr>
           <%if day == 0%>
             <td><%= link_to step.location, [@trip, step] %></td>
-            <td><%= step.lon %></td>
-            <td><%= step.lat %></td>
           <%else%>
-            <td></td>
-            <td></td>
             <td></td>
           <%end%>
             <td><%= step.arrive_on + day %></td>
             <%if step.forecasts.where('day = ?', step.arrive_on + day).order('created_at desc').first != nil %>
-              <td><%= step.forecasts.where('day = ?', step.arrive_on + day).order('created_at desc').first.description %></td>
-              <td><%= step.forecasts.where('day = ?', step.arrive_on + day).order('created_at desc').first.temp_day %></td>
-              <td><%= step.forecasts.where('day = ?', step.arrive_on + day).order('created_at desc').first.created_at.in_time_zone("Sydney") %></td>
+              <% forecast = step.forecasts.where('day = ?', step.arrive_on + day).order('created_at desc').first %>
+              <td><%= forecast.weather %></td>
+              <td><%= forecast.description %></td>
+              <td><%= forecast.temp_day %></td>
+              <td><%= forecast.speed%></td>
+              <td><%= forecast.clouds%></td>
+              <td><%= forecast.rain%></td>
+              <td><%= forecast.created_at.in_time_zone("Sydney") %></td>
             <%else%>
               <td></td>
               <td></td>
@@ -55,5 +54,4 @@
     <% end %>
   </tbody>
 </table>
-
 
