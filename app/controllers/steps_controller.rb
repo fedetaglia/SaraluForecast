@@ -17,15 +17,21 @@ class StepsController < ApplicationController
   # GET /steps/new
   def new
     user_input = params[:location]
-    string = "http://api.openweathermap.org/data/2.5/find?q=" + user_input + "&units=metric&mode=json&APPID=458002016608cfef4cc4518dfa32cd04"   
-    answer = HTTParty.get(URI.escape(string)) 
+    location = Step.find_by_location(user_input)
 
-    if answer['list'].count == 0
-        # back to trip_path motice = 'location not found'
+    if location 
+      @locations = user_input
     else
-      @locations = []
-      answer['list'].each do |loc|
-        @locations << loc['name'] + ',' + loc['sys']['country']
+      string = "http://api.openweathermap.org/data/2.5/find?q=" + user_input + "&units=metric&mode=json&APPID=458002016608cfef4cc4518dfa32cd04"   
+      answer = HTTParty.get(URI.escape(string)) 
+
+      if answer['list'].count == 0
+          # back to trip_path motice = 'location not found'
+      else
+        @locations = []
+        answer['list'].each do |loc|
+          @locations << loc['name'] + ',' + loc['sys']['country']
+        end
       end
     end
     @step = @trip.steps.new

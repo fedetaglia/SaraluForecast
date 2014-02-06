@@ -5,11 +5,12 @@
 
 
 <%= form_tag(new_trip_step_path(@trip), method:"get") do |f|%>
-  <%= text_field_tag(:location,'',options = {:placeholder => 'City,Country'}) %>
+  <%= label_tag :location, "City,Country" %>
+  <%= text_field_tag(:location,'',options = {:placeholder => 'Sydney,AU'}) %>
   <%= submit_tag('add Step') %>  
 <% end %>
 
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Location</th>

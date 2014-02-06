@@ -1,4 +1,4 @@
-<%= form_for([@trip, @step]) do |f| %>
+<%= form_for([@trip, @step], html: {:role => 'form', :class => 'form'}) do |f| %>
   <% if @step.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@step.errors.count, "error") %> prohibited this step from being saved:</h2>
@@ -13,44 +13,36 @@
   
   <%= hidden_field_tag 'locations', @locations.to_json %>
 
-  <div class="field">
-    <%= f.label :trip %><br>
-    <p><%= @trip.name %></p>
+  <div class="form-group">
+     <p><%= f.label :trip %> <%= @trip.name %></p>
   </div>
   
-  <div class="field">
+  <div class="form-group">
     <%= f.label :location %><br>
- 
     <%if @step.new_record? %>
-     <%= f.select(:location,@locations.each {|loc| [loc, loc]}) %>
+      <%if @locations.class.to_s == 'String'%>
+        <%= @locations %>
+      <%else%>
+        <%= f.select(:location,@locations.each {|loc| [loc, loc]}, {}, {:class => 'form-control'}) %>
+      <%end%>
     <%else%>
       <%= @step.location %>
     <%end%>
   </div>
 
-  <!--
-  <div class="field">
-    <%= f.label :lon %><br>
-    <%= f.text_field :lon %>
-  </div>
-  <div class="field">
-    <%= f.label :lat %><br>
-    <%= f.text_field :lat %>
-  </div>
-  -->
-
-  <div class="field">
+  <div class="form-group">
     <%= f.label :arrive_on %><br>
     <% options = {:start_year => Time.now.year} %>
-    <%= f.date_select :arrive_on, options %>
-  </div>
-  <div class="field">
-    <%= f.label :stay %><br>
-    <% options = {:value => 1} %>
-    <%= f.number_field :stay, options  %>
+    <%= f.date_select :arrive_on, options%>
   </div>
 
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-group">
+    <%= f.label :stay %><br>
+    <% options = {:value => 1} %>
+    <%= f.number_field :stay, options %>
+  </div>
+
+  <div class="actions form-group">
+    <%= f.submit 'create step', :class => 'btn btn-success' %>
   </div>
 <% end %>
