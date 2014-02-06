@@ -1,7 +1,7 @@
 
 body {
   min-height: 500px;
-  background-image: url(background-light.png);
+  background-image: asset-path(background-light.png);
   background-repeat: no-repeat;
 }
 
@@ -22,7 +22,7 @@ h1 {
   text-align: center;
   min-height: 30px;
 }​
-
+m
 .navbar-fixed-bottom {
   height: 20px;
 }
