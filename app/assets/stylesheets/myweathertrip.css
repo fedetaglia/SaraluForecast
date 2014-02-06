@@ -5,7 +5,18 @@ body {
   background-repeat: no-repeat;
 }
 
+h1 {
+  text-align: center;
+  font-weight: bold;
+  font-size: 50px;
+  color: #FF6A00;
+  margin-bottom: 40px;
+}
 
+.beta {
+  color: #1D1D1D;
+  font-size: 35px;
+}
 
 .footer{
   text-align: center;
@@ -46,13 +57,7 @@ li {
   line-height: 1.35em;
 }
 
-h1 {
-  text-align: center;
-  font-weight: bold;
-  font-size: 50px;
-  color: #FF6A00;
-  margin-bottom: 40px;
-}
+
 
 blockquote {
   font-size: 40px;
@@ -100,7 +105,6 @@ blockquote {
   height: 112px;
   color : #1D1D1D;
 }
-
 
 .trip:hover{
   background-color: #228653;
