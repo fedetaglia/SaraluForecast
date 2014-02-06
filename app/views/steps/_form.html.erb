@@ -20,8 +20,9 @@
   <div class="form-group">
     <%= f.label :location %><br>
     <%if @step.new_record? %>
-      <%if @locations.class.to_s == 'String'%>
-        <%= @locations %>
+      <%if @location%>
+        <p><%= @location %></p>
+        <%=f.hidden_field :location, value: @location%>
       <%else%>
         <%= f.select(:location,@locations.each {|loc| [loc, loc]}, {}, {:class => 'form-control'}) %>
       <%end%>
@@ -33,12 +34,12 @@
   <div class="form-group">
     <%= f.label :arrive_on %><br>
     <% options = {:start_year => Time.now.year} %>
-    <%= f.date_select :arrive_on, options%>
+    <%= f.date_select :arrive_on, options, {:class => 'form-control date_select'} %>
   </div>
 
   <div class="form-group">
     <%= f.label :stay %><br>
-    <% options = {:value => 1} %>
+    <% options = {:value => 1, :class => 'form-control number_select'} %>
     <%= f.number_field :stay, options %>
   </div>
 

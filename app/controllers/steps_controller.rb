@@ -16,11 +16,15 @@ class StepsController < ApplicationController
 
   # GET /steps/new
   def new
+    @locations = []
+    
     user_input = params[:location]
-    location = Step.find_by_location(user_input)
+    check_present = Step.find_by_location(user_input)
+   
 
-    if location 
-      @locations = user_input
+    if check_present 
+      @locations << user_input
+      @location = user_input
     else
       string = "http://api.openweathermap.org/data/2.5/find?q=" + user_input + "&units=metric&mode=json&APPID=458002016608cfef4cc4518dfa32cd04"   
       answer = HTTParty.get(URI.escape(string)) 
@@ -28,8 +32,7 @@ class StepsController < ApplicationController
       if answer['list'].count == 0
           # back to trip_path motice = 'location not found'
       else
-        @locations = []
-        answer['list'].each do |loc|
+          answer['list'].each do |loc|
           @locations << loc['name'] + ',' + loc['sys']['country']
         end
       end
@@ -45,6 +48,8 @@ class StepsController < ApplicationController
   # POST /steps.json
   def create
     @step = @trip.steps.new(step_params)
+    binding.pry
+
     @locations = JSON params['locations']
 
     respond_to do |format|

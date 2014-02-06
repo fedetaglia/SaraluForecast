@@ -29,16 +29,20 @@
 
 <% @trips.each do |trip| %>
 
-  <%= link_to trip do %>
   <div class='row'>
-    <div class="col-md-6 col-md-offset-3 trip">
-      <h3><%= trip.name %></h3>
-      <p><%= trip.description %></p>
-      <p><%= link_to 'destroy it', trip, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+    <%= link_to trip do %>
+      <div class="col-md-6 col-md-offset-3 trip">
+        <h3><%= trip.name %></h3>
+        <p><%= trip.description %></p>
+      </div>
+    <%end%>
+    <div class="delete_icon">
+      <%= link_to trip,method: :delete, data: { confirm: 'Are you sure?' } do %>
+       <i class='delete'></i>
+      <%end%>
     </div>
   </div>
-  <%end%>
-
+d
 <% end %>
   
 <br>

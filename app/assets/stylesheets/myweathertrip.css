@@ -1,7 +1,20 @@
 
+body {
+  min-height: 500px;
+  background-image: url('background-light.png');
+  background-repeat: no-repeat;
+}
+
+
+
 .footer{
   text-align: center;
+  min-height: 30px;
 }​
+
+.navbar-fixed-bottom {
+  height: 20px;
+}
 
 a {
   text-decoration: none;
@@ -18,6 +31,10 @@ a:hover {
 }
 
 /*homepage*/
+
+.navbar-inverse .navbar-brand  {
+  color: #FF8F40;
+}
 
 .center {
   margin: 0 auto;
@@ -52,6 +69,17 @@ blockquote {
 }
 
 
+/*format day select in new step form*/
+
+.date_select {
+  display: inline-block;
+  width: auto;
+}
+
+.number_select {
+  width: 50px;
+}
+
 /*comment ex. min 8 character for password in log on*/
 
 .comment {
@@ -70,17 +98,36 @@ blockquote {
   border-radius: 20px;
   margin-top: 10px;
   height: 112px;
+  color : #1D1D1D;
 }
 
-
-.trip a {
-  color: #034769;
-}
 
 .trip:hover{
   background-color: #228653;
 }
 
+.delete_icon {
+  margin-top: 10px; 
+}
+
+
+.bold {
+  font-weight: bold;
+}
+
+
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+.tab_forecast {
+  font-style: italic;
+  font-size: 10px;
+}
+
+.tab_center {
+  text-align: center;
+}
 
 /* style for login */
 .form-signin {
@@ -117,3 +164,42 @@ blockquote {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+
+
+/*icons*/
+i {
+  background-image: url('cssSpritePro.png');
+  display: inline-block;
+}
+i.Clear  {
+  background-position: 0px 0px;
+  height: 24px;
+  width: 24px;
+}
+i.Clouds  {
+  background-position: -24px 0px;
+  height: 19px;
+  width: 24px;
+}
+i.delete  {
+  background-position: 0px -24px;
+  height: 32px;
+  width: 32px;
+}
+i.delete:hover  {
+  background-position: -32px -24px;
+  height: 32px;
+  width: 32px;
+}
+i.Rain  {
+  background-position: -64px -24px;
+  height: 24px;
+  width: 24px;
+}
+i.Snow  {
+  background-position: -88px -24px;
+  height: 22px;
+  width: 24px;
+}
+ 

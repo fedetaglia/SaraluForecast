@@ -80,8 +80,15 @@ class Step < ActiveRecord::Base
       search = URI.escape(string)
       answer = HTTParty.get(search) 
       if answer['city'] != nil && answer['list'] != nil
+        
         arrive_on_index = answer['list'].index {|day| (Time.at day['dt']).to_date == self.arrive_on }
-        arrive_on_index.upto(arrive_on_index+self.stay-1) do |index|    
+        if arrive_on_index == nil
+          first_index = 0
+        else
+          first_index = arrive_on_index
+        end
+        
+        first_index.upto(first_index+self.stay-1) do |index|    
           self.forecasts << Forecast.new_from_owm(answer, index)  # attirbutes : json from owm and index of array to be used
         end
         self.location = answer['city']['name'] + "," + answer['city']['country']

@@ -1,9 +1,7 @@
+<%= content_for(:title, 'Step Detail') %>
 
+<h3><%= @step.location %></h3>
 
-<p>
-  <strong>Location:</strong>
-  <%= @step.location %>
-</p>
 
 <p>
   <strong>Lon:</strong>
@@ -16,16 +14,14 @@
 </p>
 
 <p>
-  <strong>Arrive on:</strong>
-  <%= @step.arrive_on %>
-</p>
-
-<p>
-  <strong>Stay:</strong>
-  <%= @step.stay %>
+  Arrive on: <strong><%= @step.arrive_on %></strong> and stay for
+  <%= pluralize(@step.stay, 'day') %>
 </p>
 
 
-<%= link_to 'Edit', edit_trip_step_path(@trip, @step) %> |
+<%= link_to 'Edit', edit_trip_step_path(@trip, @step) %>  |  
+<%= link_to 'Back', @trip %>  |  
 <%= link_to 'Destroy', [@trip, @step], method: :delete, data: { confirm: 'Are you sure?' } %>
-<%= link_to 'Back', @trip %>
+
+
+<h2>page under costruction .. </h2>

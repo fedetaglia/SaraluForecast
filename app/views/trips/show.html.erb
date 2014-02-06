@@ -1,6 +1,5 @@
 <%= content_for(:title, (link_to @trip.name, edit_trip_path(@trip))) %>
-
-<%= @trip.description %>
+<%= content_for(:description, @trip.description) %>
 
 
 
@@ -20,7 +19,7 @@
       <th>Day</th>
       <th></th>
       <th>Weather</th>
-      <th>Temperature</th>
+      <th>Temp °C</th>
       <th>wind speed</th>
       <th>%clouds</th>
       <th>rain mm</th>
@@ -33,25 +32,35 @@
       <% step.stay.times do |day| %>
         <tr>
           <%if day == 0%>
-            <td><%= link_to step.location, [@trip, step] %></td>
+            <td class='bold'><%= link_to step.location, [@trip, step] %></td>
           <%else%>
             <td></td>
           <%end%>
             <td><%= step.arrive_on + day %></td>
             <%if step.forecasts.where('day = ?', step.arrive_on + day).order('created_at desc').first != nil %>
               <% forecast = step.forecasts.where('day = ?', step.arrive_on + day).order('created_at desc').first %>
-              <td><%= forecast.weather %></td>
+              <td><i class=<%= forecast.weather %>></i></td>
               <td><%= forecast.description %></td>
-              <td><%= forecast.temp_day %></td>
-              <td><%= forecast.speed%></td>
-              <td><%= forecast.clouds%></td>
-              <td><%= forecast.rain%></td>
-              <td><%= forecast.created_at.in_time_zone("Sydney") %></td>
+              <td class="tab_center"><%= number_with_precision(forecast.temp_day, :precision => 1) %></td>
+              <td class="tab_center"><%= number_with_precision(forecast.speed, :precision => 1)%></td>
+              <td class="tab_center"><%= forecast.clouds%></td>
+              <td class="tab_center"><%= forecast.rain%></td>
+              <td class='tab_forecast'><%= forecast.created_at.in_time_zone("Sydney") %></td>
             <%else%>
               <td></td>
               <td></td>
               <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
             <%end%>
+              <td>
+                <%= link_to trip_step_path(@trip,step), method: :delete, data: { confirm: 'Are you sure?' } do %>
+                  <i class='delete'></i>
+                  <%end%>
+
+              </td>
         </tr>
       <%end%>
 
