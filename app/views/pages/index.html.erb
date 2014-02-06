@@ -1,13 +1,28 @@
-<h1><%=link_to "MyWeatherTrip", root_path %></h1>
+<div class='row'>
+  <h1>MyWeatherTrip</h1>
+</div>
+
+<div class='center'>
+<%if current_user.present?%>
+  <%= link_to "enter", trips_path,{:class =>"btn btn-success btn-lg active", :role => "button"}  %>
+<%end%>
+</div>
 
 <div>
-  <div>
+<div class='row'>
+  <div class='col-md-5 col-md-offset-1'>
     <ol>
-      <li><%= link_to 'Sign up', new_user_registration_path %></li>
+      <li><%= link_to 'Register', new_user_registration_path %></li>
       <li>create your trip</li>
       <li>add each step</li>
-      <li>have updated forecast for each stap at the day you want</li>
+      <li>look the forecasts for given date</li>
       <li>enjoy travel</li>
     </ol>
+  </div>
+
+  <div class='col-md-4 col-md-offset-1'>
+      <blockquote>
+        "every travel starts with the first step .."
+      </blockquote>
   </div>
 </div>

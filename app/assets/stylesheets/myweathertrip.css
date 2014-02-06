@@ -16,10 +16,47 @@ a:hover {
 .table {
   margin-top: 20px;
 }
+
+/*homepage*/
+
+.center {
+  margin: 0 auto;
+  text-align: center;
+}
+
+li {
+  font-size: 25px;
+  line-height: 1.35em;
+}
+
+h1 {
+  text-align: center;
+  font-weight: bold;
+  font-size: 50px;
+  color: #FF6A00;
+  margin-bottom: 40px;
+}
+
+blockquote {
+  font-size: 40px;
+  color: #007439;
+  line-height: 1.8em;
+  font-style: italic;
+
+}
+
 /* style for input trip desctiption */
 
 .description {
   width: 300px;
+}
+
+
+/*comment ex. min 8 character for password in log on*/
+
+.comment {
+  font-style: italic;
+  font-size: 12px;
 }
 
 /*style for trip block in trip list*/
@@ -33,6 +70,11 @@ a:hover {
   border-radius: 20px;
   margin-top: 10px;
   height: 112px;
+}
+
+
+.trip a {
+  color: #034769;
 }
 
 .trip:hover{

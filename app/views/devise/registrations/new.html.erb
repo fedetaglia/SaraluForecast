@@ -2,7 +2,7 @@
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), html: {:role => 'form', :class => 'form-signin'}) do |f| %>
   
-  <h2 class='form-signin-heading'>Sign up</h2>
+  <h2 class='form-signin-heading'>Register</h2>
   <%= devise_error_messages! %>
 
   <div>
@@ -11,14 +11,15 @@
 
   <div>
     <%= f.password_field :password, :class => 'form-control', :placeholder => 'password'  %>
+    <p class='comment'>password should have minimum 8 characters</p>
   </div>
-
+  
   <div>
     <%= f.password_field :password_confirmation, :class => 'form-control', :placeholder => 'confirm password'  %>
   </div>
 
   <div>
-    <%= f.submit "Sign up", :class => "btn btn-lg btn-primary btn-block" %>
+    <%= f.submit "Register", :class => "btn btn-lg btn-primary btn-block" %>
   </div>
   <%= render "devise/shared/links" %>
 <% end %>

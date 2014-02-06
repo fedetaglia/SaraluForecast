@@ -4,10 +4,13 @@
 
 
 
-<%= form_tag(new_trip_step_path(@trip), method:"get") do |f|%>
-  <%= label_tag :location, "City,Country" %>
-  <%= text_field_tag(:location,'',options = {:placeholder => 'Sydney,AU'}) %>
-  <%= submit_tag('add Step') %>  
+<%= form_tag(new_trip_step_path(@trip),{ method:"get", :role => 'form', :class => 'form-inline'}) do |f|%>
+  <div class='form-group'>
+  <%= label_tag :location, "Where's your next step ?"%>
+  <%= text_field_tag(:location,'',options = {:placeholder => 'Sydney,AU' ,:class => 'form-control'}) %>
+  </div>
+  <%= submit_tag 'add',:class => "btn btn-success" %>  
+
 <% end %>
 
 <table class="table table-striped">

@@ -2,7 +2,7 @@
 
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), html: {:role => 'form', :class => 'form-signin'}) do |f| %>
   
-  <h2 class='form-signin-heading'>Sign in</h2>
+  <h2 class='form-signin-heading'>Login</h2>
 
 
 
@@ -18,7 +18,7 @@
     <div><%= f.check_box :remember_me, :class => 'check_box' %> <%= f.label :remember_me %></div>
   <% end -%>
 
-  <div><%= f.submit "Sign in", :class => "btn btn-lg btn-primary btn-block"  %>
+  <div><%= f.submit "Login", :class => "btn btn-lg btn-primary btn-block"  %>
   </div>
 
   <%= render "devise/shared/links" %>
