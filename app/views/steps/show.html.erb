@@ -1,27 +1,83 @@
 <%= content_for(:title, 'Step Detail') %>
 
-<h3><%= @step.location %></h3>
+<div class='container'>
+  
+  <div class='row'>
+        <div class="col-md-2">
+          <h3><%= @step.location %></h3>
+          <p><strong>Lon:</strong> <%= @step.lon %></p>
+          <p><strong>Lat:</strong> <%= @step.lat %></p>
+          <p>Arrive on: <strong><%= @step.arrive_on %></strong> and stay for <%= pluralize(@step.stay, 'day') %></p>
+          <br>
+          <p><%= link_to 'edit', edit_trip_step_path(@trip, @step) %>  |  
+          <%= link_to 'delete', [@trip, @step], method: :delete, data: { confirm: 'Are you sure?' } %>  |  
+          <%= link_to 'my trip', @trip %>
+          </p>
+        </div>
+        
+        <div class="col-md-10">
+        
+        <table id='tab_detail' class="table table-striped">
+          <thead>
+            <tr>
+              <th>Day</th> <!---->
+              <th></th> <!---->
+              <th>Weather</th> <!---->
+              <th colspan="4">Temperature °C</th> <!---->
+              <th colspan='2'>wind</th> <!---->
+              <th>Pressure</th>
+              <th>Humidity</th>
+              <th>%clouds</th> <!---->
+              <th>rain mm</th> <!---->
+              <th>last forecast</th> <!---->
+            </tr> <!---->
+            <tr class="tab_subtitle">
+              <td></td> <!---->
+              <td></td>
+              <td></td>
+              <td>mor</td>
+              <td>day</td>
+              <td>eve</td>
+              <td>nig</td>
+              <td>speed</td>
+              <td>dir</td>
+              <td>m/s</td>
+            </tr>
+
+          </thead>
+
+          <tbody>
+            <% @step.stay.times do |day| %>
+              <tr>
+                <td><%= @step.arrive_on + day %></td>
+              <%if @step.forecasts.where('day = ?', @step.arrive_on + day).order('created_at desc').first != nil %>
+                <% forecast = @step.forecasts.where('day = ?', @step.arrive_on + day).order('created_at desc').first %>
+                <td><i class=<%= forecast.weather %>></i></td>
+                <td><%= forecast.description %></td>
+                <td class="tab_center"><%= number_with_precision(forecast.temp_mor, :precision => 1) %></td>
+                <td class="tab_center"><%= number_with_precision(forecast.temp_day, :precision => 1) %></td>
+                <td class="tab_center"><%= number_with_precision(forecast.temp_eve, :precision => 1) %></td>
+                <td class="tab_center"><%= number_with_precision(forecast.temp_nig, :precision => 1) %></td>
+                <td class="tab_center"><%= number_with_precision(forecast.speed, :precision => 1)%></td>
+                <td class="tab_center"><%= forecast.deg %></td>
+                <td class="tab_center"><%= forecast.pressure %></td>
+                <td class="tab_center"><%= forecast.humidity %></td>
+                <td class="tab_center"><%= forecast.clouds%></td>
+                <td class="tab_center"><%= forecast.rain%></td>
+                <td class='tab_forecast_column'><%= forecast.created_at.in_time_zone("Sydney") %></td>
+              <%else%>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td>
+              <%end%>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
 
 
-<p>
-  <strong>Lon:</strong>
-  <%= @step.lon %>
-</p>
 
-<p>
-  <strong>Lat:</strong>
-  <%= @step.lat %>
-</p>
+        </div>
 
-<p>
-  Arrive on: <strong><%= @step.arrive_on %></strong> and stay for
-  <%= pluralize(@step.stay, 'day') %>
-</p>
-
-
-<%= link_to 'Edit', edit_trip_step_path(@trip, @step) %>  |  
-<%= link_to 'Back', @trip %>  |  
-<%= link_to 'Destroy', [@trip, @step], method: :delete, data: { confirm: 'Are you sure?' } %>
-
-
-<h2>page under costruction .. </h2>
+</div>

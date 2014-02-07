@@ -48,7 +48,6 @@ class StepsController < ApplicationController
   # POST /steps.json
   def create
     @step = @trip.steps.new(step_params)
-    binding.pry
 
     @locations = JSON params['locations']
 

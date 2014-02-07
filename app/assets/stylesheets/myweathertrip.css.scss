@@ -41,6 +41,8 @@ a:hover {
   margin-top: 20px;
 }
 
+
+
 /*homepage*/
 
 .navbar-inverse .navbar-brand  {
@@ -124,7 +126,24 @@ blockquote {
   vertical-align: middle;
 }
 
-.tab_forecast {
+.table > thead > tr > th {
+  text-align: center;
+}
+
+#tab_detail > thead > tr > th {
+  border-bottom: 0px;
+}
+
+
+#tab_detail > thead > tr > td {
+  border-top: 0px;
+}
+
+.tab_subtitle > td {
+  font-size: 12px;
+}
+
+.tab_forecast_column {
   font-style: italic;
   font-size: 10px;
 }

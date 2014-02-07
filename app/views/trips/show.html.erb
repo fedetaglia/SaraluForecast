@@ -19,8 +19,8 @@
       <th>Day</th>
       <th></th>
       <th>Weather</th>
-      <th>Temp °C</th>
-      <th>wind speed</th>
+      <th>Day Temp °C</th>
+      <th>wind m/s</th>
       <th>%clouds</th>
       <th>rain mm</th>
       <th>last forecast</th>
@@ -45,7 +45,7 @@
               <td class="tab_center"><%= number_with_precision(forecast.speed, :precision => 1)%></td>
               <td class="tab_center"><%= forecast.clouds%></td>
               <td class="tab_center"><%= forecast.rain%></td>
-              <td class='tab_forecast'><%= forecast.created_at.in_time_zone("Sydney") %></td>
+              <td class='tab_forecast_column'><%= forecast.created_at.in_time_zone("Sydney") %></td>
             <%else%>
               <td></td>
               <td></td>
@@ -56,10 +56,11 @@
               <td></td>
             <%end%>
               <td>
-                <%= link_to trip_step_path(@trip,step), method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <%if day == 0%>
+                 <%= link_to trip_step_path(@trip,step), method: :delete, data: { confirm: 'Are you sure?' } do %>
                   <i class='delete'></i>
                   <%end%>
-
+              <%end%>
               </td>
         </tr>
       <%end%>
