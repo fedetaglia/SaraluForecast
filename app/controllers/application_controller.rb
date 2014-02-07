@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
   
 
+  GMAPS_API = AIzaSyBLUy1qKgE8rL7I9O0fUfn-ibmp5PMkEto
+
  protected
 
   def configure_permitted_parameters
@@ -16,4 +18,6 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(user)
     trips_path
   end
+
+
 end
