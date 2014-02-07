@@ -1,6 +1,10 @@
 <%= content_for(:title, "My trips") %>
 
 <div class="row">
+    <%if @trips.count == 0 %>
+    <h3>Create a new trip to start travelling .. </h3>
+    <%end%>
+
   <div class="col-md-6 col-md-offset-3">
     
      <%= form_for(@trip, html: {:role => 'form', :class => 'form-inline'}) do |f| %>
@@ -25,7 +29,11 @@
       </div>
     <% end %>
   </div>
+
 </div>
+
+
+
 
 <% @trips.each do |trip| %>
 
