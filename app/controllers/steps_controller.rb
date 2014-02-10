@@ -91,10 +91,10 @@ class StepsController < ApplicationController
   # PATCH/PUT /steps/1
   # PATCH/PUT /steps/1.json
   def update
-
     respond_to do |format|
       if @step.update(step_params)
         if @step.have_updated_forecast? # return true or false
+          binding.pry
           format.html { redirect_to [@trip, @step], notice: 'Step was successfully updated. Update forecast available.' }
           format.json { head :no_content }
         else

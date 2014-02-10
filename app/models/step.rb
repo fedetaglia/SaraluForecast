@@ -20,34 +20,44 @@ class Step < ActiveRecord::Base
   # if step is more more in advance then the api max day do not need to update
 
   def have_updated_forecast? # return true or false 
-      # look for last forecast for the step in a specific date
-      latest = self.forecasts.where('day = ?', self.arrive_on.beginning_of_day).order('created_at desc').first
-      # if I have it I check if it's new (created today) and if the user has or not changed the location
+    location, country = self.location.split(',')
+    no_forecast_on = []
+
+    0.upto(self.stay - 1 ) do |i|
+      day = self.arrive_on + i
+      latest = self.forecasts.where('day = ? AND created_at = ?', day,Time.now.to_date).order('created_at desc').first
       if latest.present?
-        Time.now.to_date == latest.created_at.to_date && self.location == latest.location + ',' + latest.country
-        # return true
+        true # return true if latest is updated
       else
-        # check if self.location has 1 only comma
-        location, country = self.location.split(',')
-        no_forecast_on = []
-        0.upto(self.stay - 1 ) do |i|
-          day = self.arrive_on + i
-          forecast = Forecast.where('location = ? AND country = ? AND day = ?', location, country, day).order('created_at desc').first
-          if forecast == nil
-            no_forecast_on << day
-          else
-            self.forecasts << forecast
-            self.lon = forecast.lon
-            self.lat = forecast.lat
-            self.save
-          end
-        end
-        if no_forecast_on.empty?
-          true
+        if find_updated_forecast_on_db(day)
+          true #updated forecast found on db and added to step
         else
-          false
+          no_forecast_on << day # no updated forecast for day in db
         end
       end
+    end
+
+    if no_forecast_on.empty?
+      true
+    else
+      false
+    end
+
+  end
+
+  # used into have_updated_forecasts to check if forecast for that day is already present into the db
+  def find_updated_forecast_on_db (day)
+    location, country = self.location.split(',')
+    forecast = Forecast.where('location = ? AND country = ? AND day = ? AND created_at = ?', location, country, day,Time.now.to_date).order('created_at desc').first
+    if forecast == nil
+      false
+    else
+      self.forecasts << forecast
+      self.lon = forecast.lon
+      self.lat = forecast.lat
+      self.save
+      true
+    end 
   end
 
 
@@ -66,7 +76,7 @@ class Step < ActiveRecord::Base
   end
     
   def should_make_forecast?
-    if self.arrive_on > Time.now + Fdays_owm
+    if self.arrive_on > Time.now.to_date + Fdays_owm
       false
     else
       true

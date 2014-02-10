@@ -6,9 +6,7 @@ class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
   
 
-  GMAPS_API = AIzaSyBLUy1qKgE8rL7I9O0fUfn-ibmp5PMkEto
-
- protected
+protected
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :username
