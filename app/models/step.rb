@@ -92,11 +92,8 @@ class Step < ActiveRecord::Base
       if answer['city'] != nil && answer['list'] != nil
         
         arrive_on_index = answer['list'].index {|day| (Time.at day['dt']).to_date == self.arrive_on }
-        if arrive_on_index == nil
-          first_index = 0
-        else
-          first_index = arrive_on_index
-        end
+        
+        first_index = arrive_on_index || 0
         
         first_index.upto(first_index+self.stay-1) do |index|    
           self.forecasts << Forecast.new_from_owm(answer, index)  # attirbutes : json from owm and index of array to be used
