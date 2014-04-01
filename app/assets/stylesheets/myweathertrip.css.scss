@@ -22,7 +22,7 @@ h1 {
   text-align: center;
   min-height: 30px;
 }​
-m
+
 .navbar-fixed-bottom {
   height: 20px;
 }
@@ -41,9 +41,17 @@ a:hover {
   margin-top: 20px;
 }
 
+.inline {
+  display: inline-block;
+}
 
 
-/*homepage*/
+.float-right {
+  float: right;
+  padding-right: 10px;
+}
+
+/* landing page */
 
 .navbar-inverse .navbar-brand  {
   color: #FF8F40;
@@ -59,14 +67,11 @@ li {
   line-height: 1.35em;
 }
 
-
-
 blockquote {
   font-size: 40px;
   color: #007439;
   line-height: 1.8em;
   font-style: italic;
-
 }
 
 /* style for input trip desctiption */
@@ -108,7 +113,7 @@ blockquote {
   color : #1D1D1D;
 }
 
-.trip:hover{
+.trip:hover {
   background-color: #228653;
 }
 
@@ -121,7 +126,6 @@ blockquote {
   font-weight: bold;
 }
 
-
 .table > tbody > tr > td {
   vertical-align: middle;
 }
@@ -133,7 +137,6 @@ blockquote {
 #tab_detail > thead > tr > th {
   border-bottom: 0px;
 }
-
 
 #tab_detail > thead > tr > td {
   border-top: 0px;
@@ -158,13 +161,16 @@ blockquote {
   padding: 15px;
   margin: 0 auto;
 }
+
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
   margin-bottom: 10px;
 }
+
 .form-signin .checkbox {
   font-weight: normal;
 }
+
 .form-signin .form-control {
   position: relative;
   font-size: 16px;
@@ -174,14 +180,17 @@ blockquote {
      -moz-box-sizing: border-box;
           box-sizing: border-box;
 }
+
 .form-signin .form-control:focus {
   z-index: 2;
 }
+
 .form-signin input[type="email"] {
   margin-bottom: -1px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+
 .form-signin input[type="password"] {
   margin-bottom: 10px;
   border-top-left-radius: 0;

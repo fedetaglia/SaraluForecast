@@ -12,7 +12,6 @@ gem 'sass-rails', '~> 4.0.0'
 #gem 'twitter-bootstrap-rails'
 gem 'bootstrap-sass', '~> 3.1.0'
 
-
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
@@ -55,6 +54,9 @@ gem "httparty"
 # devise for authentication
 gem 'devise'
 
+# aacsm for manage friendship status
+# https://github.com/aasm/aasm
+gem 'aasm'
 
 # gem for debugging
 gem 'pry'

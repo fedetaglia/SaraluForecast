@@ -1,0 +1,37 @@
+<%= content_for(:title, "profile" ) %>
+
+<div class="row">
+  <div class="col-md-9">
+    <h3><%= @user.username %></h3>
+    <% if @user == current_user %>
+        <%= link_to "edit profile", edit_user_registration_path(current_user) %>
+        <h4>friendship request</h4>
+        <% for friendship in current_user.inverse_pending_friendships %>
+            <%= link_to friendship.user.username,  friendship.user %>
+            
+            <%= form_tag(friendship_path(friendship), method: 'PATCH',class: "form-inline inline" ) do %>  
+              <%= submit_tag 'Accept', class: "btn btn-success" %>
+            <%end%>
+            <%= form_tag(friendship_path(friendship), method: 'DELETE',class: "form-inline inline" ) do %>  
+                <%= submit_tag 'Reject',class: 'btn btn-danger' %>
+            <% end %>
+        <%end%>
+     <% end %>
+
+  </div>
+  <div class="col-md-3">
+    <% if @user == current_user %>
+    <p><%=link_to "Find friend", users_path %></p>
+    <% end %>
+    <h4>friends list</h4>
+
+    <%if @user.friendships.empty? %>
+        <p>no friend</p>
+    <% else %>
+        <% for friendship in @user.friendships %>
+            <p><%= link_to friendship.friend.username, friendship.friend %></p>
+        <% end %>
+    <% end %>
+  </div>
+</div>  
+

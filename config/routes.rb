@@ -5,12 +5,15 @@ Saraluforecast::Application.routes.draw do
   
   devise_for :users
 
+  resources :users, :only => [:index, :show]
+
   resources :trips do
     resources :steps
   end
 
   resources :forecasts
 
+  resources :friendships
 
   get ':action', to: 'pages#action'
 
