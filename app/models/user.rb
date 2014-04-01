@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   
   validates :username, presence: true
   
@@ -24,5 +24,24 @@ class User < ActiveRecord::Base
   #request received and not accepted yet
   has_many :inverse_pending_friendships, -> { where status: 'pending' }, :class_name =>'Friendship', :foreign_key => 'friend_id'
   has_many :requesting_friends, :through => :inverse_pending_friendships, :source => :user
+
+  def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
+    user = User.where(:provider => auth.provider, :uid => auth.uid).first
+    if user
+      return user
+    else
+      registered_user = User.where(:email => auth.info.email).first
+      if registered_user
+        return registered_user
+      else
+        user = User.create(name:auth.extra.raw_info.name,
+                            provider:auth.provider,
+                            uid:auth.uid,
+                            email:auth.info.email,
+                            password:Devise.friendly_token[0,20],
+                          )
+      end    
+    end
+  end
 
 end

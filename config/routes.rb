@@ -1,9 +1,11 @@
 Saraluforecast::Application.routes.draw do
 
+  get '/auth/:provider/callback', to: 'authentications#create'
+  #match '/auth/:provider/callback', to: 'sessions#create'
 
   root to: 'pages#index'
   
-  devise_for :users
+  devise_for :users, :controllers => { omniauth_callbacks: "omniauth_callbacks" }
 
   resources :users, :only => [:index, :show]
 
@@ -16,6 +18,8 @@ Saraluforecast::Application.routes.draw do
   resources :friendships
 
   get ':action', to: 'pages#action'
+
+  
 
 
   # The priority is based upon order of creation: first created -> highest priority.
