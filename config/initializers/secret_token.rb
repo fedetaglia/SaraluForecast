@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Saraluforecast::Application.config.secret_key_base = 'fc904f9be541694afdf28b08e8a7910230c5e96137a4bdbf9d3c209df4d9a295eb1fdd1aa92fa1f46eefd78e8e0a73f0bcc551d3686ea55a685868e2ef34415a'
+Saraluforecast::Application.config.secret_key_base = ENV['RAILS_SECRET_KEY']

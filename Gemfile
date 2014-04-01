@@ -58,9 +58,12 @@ gem 'devise'
 # https://github.com/aasm/aasm
 gem 'aasm'
 
-# gem for debugging
-gem 'pry'
-gem 'pry-debugger'
+group :development, :test do
+  gem 'dotenv-rails'
+  # gem for debugging
+  gem 'pry'
+  gem 'pry-debugger'
+end
 
 
 # Hopefully this gem will fix my assets issue in Heroku!!
