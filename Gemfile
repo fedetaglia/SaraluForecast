@@ -53,10 +53,16 @@ gem "httparty"
 
 # devise for authentication
 gem 'devise'
+
 # login with facebook
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'oauth2'
+# manage facebook information
+gem "koala"
+gem 'fb_graph'
+
+
 
 # aacsm for manage friendship status
 # https://github.com/aasm/aasm
