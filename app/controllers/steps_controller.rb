@@ -94,7 +94,6 @@ class StepsController < ApplicationController
     respond_to do |format|
       if @step.update(step_params)
         if @step.have_updated_forecast? # return true or false
-          binding.pry
           format.html { redirect_to [@trip, @step], notice: 'Step was successfully updated. Update forecast available.' }
           format.json { head :no_content }
         else

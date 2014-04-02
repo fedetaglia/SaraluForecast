@@ -5,7 +5,9 @@
 <div class='center'>
 <%if current_user.present?%>
   <%= link_to "enter", trips_path,{:class =>"btn btn-success btn-lg active", :role => "button"}  %>
-<%end%>
+<% else %>
+  <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), {class: 'btn btn-primary' } %>
+<% end %>
 </div>
 
 <div>

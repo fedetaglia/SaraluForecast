@@ -11,10 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140204040825) do
+ActiveRecord::Schema.define(version: 20140401095143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "authentications", force: true do |t|
+    t.integer  "user_id"
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "forecasts", force: true do |t|
     t.string   "location"
@@ -41,6 +50,14 @@ ActiveRecord::Schema.define(version: 20140204040825) do
   create_table "forecasts_steps", id: false, force: true do |t|
     t.integer "forecast_id"
     t.integer "step_id"
+  end
+
+  create_table "friendships", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "friend_id"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "steps", force: true do |t|
@@ -78,6 +95,8 @@ ActiveRecord::Schema.define(version: 20140204040825) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "provider"
+    t.string   "uid"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
