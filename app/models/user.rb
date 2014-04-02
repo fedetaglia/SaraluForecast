@@ -25,16 +25,19 @@ class User < ActiveRecord::Base
   has_many :inverse_pending_friendships, -> { where status: 'pending' }, :class_name =>'Friendship', :foreign_key => 'friend_id'
   has_many :requesting_friends, :through => :inverse_pending_friendships, :source => :user
 
+
+  # facebook authentication
+
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
       return user
     else
-      registered_user = User.where(:email => auth.info.email).first
+      registered_user = User.where( email: auth.info.email).first
       if registered_user
         return registered_user
       else
-        user = User.create(name:auth.extra.raw_info.name,
+        user = User.create(username:auth.extra.raw_info.name,
                             provider:auth.provider,
                             uid:auth.uid,
                             email:auth.info.email,

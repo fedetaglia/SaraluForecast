@@ -254,6 +254,9 @@ Devise.setup do |config|
 
 
   require "omniauth-facebook"
-  config.omniauth :facebook, ENV['FB_APP_ID'], ENV['FB_APP_KEY']
+  config.omniauth :facebook, ENV['FB_APP_ID'], ENV['FB_APP_KEY'], {
+  strategy_class: OmniAuth::Strategies::Facebook,
+  provider_ignores_state: true,
+}
 
 end
