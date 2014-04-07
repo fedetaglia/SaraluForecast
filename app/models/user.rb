@@ -33,8 +33,12 @@ class User < ActiveRecord::Base
     user = User.where( provider: auth.provider, uid: auth.uid).first
     if !user
       registered_user = User.where( email: auth.info.email).first
-      if registered_user
-        user = registered_user
+      if registered_user 
+        if !registered_user.provider.nil?
+          user = registered_user
+        else
+          return nil
+        end
       else
         user = User.create(username:auth.extra.raw_info.name,
                             provider:auth.provider,
@@ -50,20 +54,21 @@ class User < ActiveRecord::Base
 
 
   def self.add_fb_friends(user,auth)
-    
-    koala = Koala::Facebook::API.new(auth.credentials.token,ENV['FB_APP_KEY'])
-    fb_friend = koala.get_connections('me','friends')
-    fb_ids = fb_friend.map { |obj| obj['id'] }
-    friends = User.where( uid: fb_ids)
-    if friends.length > 0
-      friends.each do |friend|
-        if !user.friends.include? friend
-          friendship = user.friendships.build( friend_id: friend.id)
-          inverse_friendship = user.inverse_friendships.build( user_id: friend.id )
-          friendship.accepted
-          inverse_friendship.accepted
-          friendship.save
-          inverse_friendship.save
+    if user != nil
+      koala = Koala::Facebook::API.new(auth.credentials.token,ENV['FB_APP_KEY'])
+      fb_friend = koala.get_connections('me','friends')
+      fb_ids = fb_friend.map { |obj| obj['id'] }
+      friends = User.where( uid: fb_ids)
+      if friends.length > 0
+        friends.each do |friend|
+          if !user.friends.include? friend
+            friendship = user.friendships.build( friend_id: friend.id)
+            inverse_friendship = user.inverse_friendships.build( user_id: friend.id )
+            friendship.accepted
+            inverse_friendship.accepted
+            friendship.save
+            inverse_friendship.save
+          end
         end
       end
     end
