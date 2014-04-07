@@ -3,9 +3,6 @@
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), html: {:role => 'form', :class => 'form-signin'}) do |f| %>
   
   <h2 class='form-signin-heading'>Login</h2>
-
-
-
   <div>
     <%= f.email_field :email, :autofocus => true, :class => 'form-control', :placeholder => 'email' %>
   </div>
@@ -18,8 +15,12 @@
     <div><%= f.check_box :remember_me, :class => 'check_box' %> <%= f.label :remember_me %></div>
   <% end -%>
 
-  <div><%= f.submit "Login", :class => "btn btn-lg btn-primary btn-block"  %>
+  <div><%= f.submit "Login", :class => "btn btn-lg btn-default btn-block"  %>
   </div>
 
+
   <%= render "devise/shared/links" %>
+
+  <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), {class: 'btn btn-primary btn-block' } %>
 <% end %>
+
