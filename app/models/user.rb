@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  require 'koala'
   
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -56,15 +55,9 @@ class User < ActiveRecord::Base
     fb_friend = koala.get_connections('me','friends')
     fb_ids = fb_friend.map { |obj| obj['id'] }
     friends = User.where( uid: fb_ids)
-    
-    binding.pry
-
     if friends.length > 0
-
       friends.each do |friend|
-        binding.pry
         if !user.friends.include? friend
-          binding.pry
           friendship = user.friendships.build( friend_id: friend.id)
           inverse_friendship = user.inverse_friendships.build( user_id: friend.id )
           friendship.accepted
@@ -73,10 +66,7 @@ class User < ActiveRecord::Base
           inverse_friendship.save
         end
       end
-      #have friends to add
     end
-
-
   end
 
 end
