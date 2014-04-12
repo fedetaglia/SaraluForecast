@@ -7,14 +7,16 @@
         <%= link_to "edit profile", edit_user_registration_path(current_user) %>
         <h4>friendship request</h4>
         <% for friendship in current_user.inverse_pending_friendships %>
-            <%= link_to friendship.user.username,  friendship.user %>
+            <div class="friendship-request">
+              <%= link_to friendship.user.username,  friendship.user %>
             
-            <%= form_tag(friendship_path(friendship), method: 'PATCH',class: "form-inline inline" ) do %>  
-              <%= submit_tag 'Accept', class: "btn btn-success" %>
-            <%end%>
-            <%= form_tag(friendship_path(friendship), method: 'DELETE',class: "form-inline inline" ) do %>  
-                <%= submit_tag 'Reject',class: 'btn btn-danger' %>
-            <% end %>
+              <%= form_tag(friendship_path(friendship), method: 'PATCH',class: "form-inline inline" ) do %>  
+                <%= submit_tag 'Accept', class: "btn btn-success" %>
+              <%end%>
+              <%= form_tag(friendship_path(friendship), method: 'DELETE',class: "form-inline inline" ) do %>  
+                  <%= submit_tag 'Reject',class: 'btn btn-danger' %>
+              <% end %>
+            </div>
         <%end%>
      <% end %>
 
