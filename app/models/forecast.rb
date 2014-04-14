@@ -5,6 +5,7 @@ class Forecast < ActiveRecord::Base
 
 def self.new_from_owm(answer,index = 0)
   forecast = answer['list'][index]
+  if forecast
   add_forecast = Forecast.new(
               :location => answer['city']['name'],
               :country => answer['city']['country'],
@@ -24,7 +25,7 @@ def self.new_from_owm(answer,index = 0)
               :clouds => forecast['clouds'],
               :rain => forecast['rain']
             )
-
+  end
 end
 
 end

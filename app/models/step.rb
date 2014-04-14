@@ -94,8 +94,8 @@ class Step < ActiveRecord::Base
         arrive_on_index = answer['list'].index {|day| (Time.at day['dt']).to_date == self.arrive_on }
         
         first_index = arrive_on_index || 0
-        
-        first_index.upto(first_index+self.stay-1) do |index|    
+        last_index = 13 < (first_index+self.stay-1) ? 13 : (first_index+self.stay-1)
+        first_index.upto(last_index) do |index|    
           self.forecasts << Forecast.new_from_owm(answer, index)  # attirbutes : json from owm and index of array to be used
         end
         self.location = answer['city']['name'] + "," + answer['city']['country']
