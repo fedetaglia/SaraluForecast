@@ -11,12 +11,26 @@ class TripsController < ApplicationController
   # GET /trips/1
   # GET /trips/1.json
   def show
-    @steps = @trip.steps.order('arrive_on asc')
+    @steps = @trip.steps.order('index asc')
     @steps.each do |step|
-      if !step.have_updated_forecast?
-        step.make_forecast
+      unless step.arrive_on.nil?
+        if !step.have_updated_forecast?
+          step.make_forecast
+        end
       end
     end
+
+    @steps_json = Jbuilder.encode do |json|
+      json.array! @steps do |step|
+        json.index step.index
+        json.id step.id
+        json.lon step.lon
+        json.lat step.lat
+        json.arrive_on step.arrive_on
+        json.stay step.stay
+      end
+    end
+
   end
 
   # GET /trips/new

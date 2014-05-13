@@ -2,6 +2,7 @@ require 'uri'
 class StepsController < ApplicationController
   before_action :set_trip
   before_action :set_step, only: [:show, :edit, :update, :destroy]
+  respond_to :json, :html
 
   # GET /steps
   # GET /steps.json
@@ -47,32 +48,38 @@ class StepsController < ApplicationController
   # POST /steps
   # POST /steps.json
   def create
-    @step = @trip.steps.new(step_params)
+    
 
-    @locations = JSON params['locations']
+    @step = @trip.steps.new(step_params)
+    # @locations = JSON params['locations']
 
     respond_to do |format|
       if @step.valid?
         if @step.save
-          if @step.have_updated_forecast? # return true or false
-            format.html { redirect_to @trip, notice: 'Step was successfully created. Updated forecast available.' }
-            format.json { render action: 'show', status: :created, location: @step }
+          if @step.arrive_on.nil?
+            format.json { render json: @step }
           else
-            if @step.should_make_forecast?
-              if @step.make_forecast == true # return true , false or nil
-                format.html { redirect_to @trip, notice: 'Step was successfully created. New forecast requested.' }
-                format.json { render action: 'show', status: :created, location: @step }
-              else @step.make_forecast == false
-                  format.html { 
-                    flash.now[:notice] = "Cannot make forecast for #{@step.location}. City not found!" 
-                    render action: 'new' }
-                  format.json { render json: @step.errors, status: :unprocessable_entity }
-              end
+            if @step.have_updated_forecast? # return true or false
+              format.html { redirect_to @trip, notice: 'Step was successfully created. Updated forecast available.' }
+              format.json { render @step, status: :created, location: @step }
             else
-                format.html { redirect_to @trip, notice: 'Step was successfully created. No forecast available for the arrival.' }
-                format.json { render action: 'show', status: :created, location: @step }   
-            end         
+              if @step.should_make_forecast?
+                if @step.make_forecast == true # return true , false or nil
+                  format.html { redirect_to @trip, notice: 'Step was successfully created. New forecast requested.' }
+                  format.json { render @step, status: :created, location: @step }
+                else @step.make_forecast == false
+                    format.html { 
+                      flash.now[:notice] = "Cannot make forecast for #{@step.location}. City not found!" 
+                      render action: 'new' }
+                    format.json { render json: @step.errors, status: :unprocessable_entity }
+                end
+              else
+                  format.html { redirect_to @trip, notice: 'Step was successfully created. No forecast available for the arrival.' }
+                  format.json { render action: 'show', status: :created, location: @step }   
+              end         
+            end
           end
+
         else
           format.html { render action: 'new' }
           format.json { render json: @step.errors, status: :unprocessable_entity }
@@ -93,19 +100,23 @@ class StepsController < ApplicationController
   def update
     respond_to do |format|
       if @step.update(step_params)
-        if @step.have_updated_forecast? # return true or false
-          format.html { redirect_to [@trip, @step], notice: 'Step was successfully updated. Update forecast available.' }
-          format.json { head :no_content }
+        if @step.arrive_on.nil?
+          format.json { render json: @step }
         else
-          if @step.make_forecast # return true or nil
-            format.html { redirect_to [@trip, @step], notice: 'Step was successfully updated.New forecast requested.' }
-            format.json { head :no_content }
+          if @step.have_updated_forecast? # return true or false
+            format.html { redirect_to [@trip, @step], notice: 'Step was successfully updated. Update forecast available.' }
+            format.json { render json: @step }
           else
-            format.html { 
-              flash.now[:notice] = "Cannot make forecast for #{@step.location}. City not found!" 
-              render action: 'edit' 
-              }
-            format.json { render json: @step.errors, status: :unprocessable_entity }      
+            if @step.make_forecast # return true or nil
+              format.html { redirect_to [@trip, @step], notice: 'Step was successfully updated.New forecast requested.' }
+              format.json { render json: @step }
+            else
+              format.html { 
+                flash.now[:notice] = "Cannot make forecast for #{@step.location}. City not found!" 
+                render action: 'edit' 
+                }
+              format.json { render json: @step.errors, status: :unprocessable_entity }      
+            end
           end
         end
       else
@@ -140,7 +151,7 @@ class StepsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def step_params
-      params.require(:step).permit(:location, :lon, :lat, :arrive_on, :stay, :trip_id)
+      params.require(:step).permit(:location, :lon, :lat, :arrive_on, :stay, :index, :elevation, :position_type, :forecast_lat, :forecast_lng, :trip_id)
     end
 
 

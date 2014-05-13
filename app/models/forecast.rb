@@ -1,7 +1,27 @@
 class Forecast < ActiveRecord::Base
   has_and_belongs_to_many :steps
 
-
+def self.new_from_wwo(answer,index=0,loc_array) # http://developer.worldweatheronline.com/
+  forecast = answer['data']['weather'][index]
+  if forecast
+    add_forecast = Forecast.new(
+              :lon => loc_array[3],
+              :lat => loc_array[0],
+              :day => forecast['date'].to_date,
+              :weather => nil,  
+              :description => forecast['weatherDesc'][0]['value'],
+              :temp_max => forecast['tempMaxC'],
+              :temp_min => forecast['tempMinC'],
+              :pressure => nil,
+              :humidity => nil,
+              :speed => forecast['windspeedKmph'],
+              :deg => forecast['winddirDegree'],
+              :winddirection => forecast['winddirection'],
+              :clouds => nil,
+              :rain => forecast['precipMM']
+      )
+  end
+end
 
 def self.new_from_owm(answer,index = 0)
   forecast = answer['list'][index]

@@ -12,6 +12,21 @@
 
 <% end %>
 
+
+<div class="row google-maps-container">
+  <div class="col-md-6">
+    <div id="map-canvas"></div>
+  </div>
+
+  <div class="col-md-6">
+    <h4>my steps</h4>
+    <ul class="marker-list"> 
+    </ul>
+  </div>
+</div>
+
+
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -29,15 +44,17 @@
 
   <tbody>
     <% @steps.each do |step| %>
-      <% step.stay.times do |day| %>
+
+      <% ( step.stay || 1 ).times do |day| %>
         <tr>
           <%if day == 0%>
             <td class='bold'><%= link_to step.location, [@trip, step] %></td>
           <%else%>
             <td></td>
           <%end%>
-            <td><%= step.arrive_on + day %></td>
-            <%if step.forecasts.where('day = ?', step.arrive_on + day).order('created_at desc').first != nil %>
+            <td><%= step.arrive_on + day if step.arrive_on %></td>
+
+            <%if step.arrive_on && step.forecasts.where('day = ?', step.arrive_on + day).order('created_at desc').first != nil %>
               <% forecast = step.forecasts.where('day = ?', step.arrive_on + day).order('created_at desc').first %>
               <td><i class=<%= forecast.weather %>></i></td>
               <td><%= forecast.description %></td>
@@ -69,3 +86,31 @@
   </tbody>
 </table>
 
+
+<div id="token"><%= form_authenticity_token %></div>
+
+<script type="text/javascript"
+  src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&sensor=false">
+      // sensor set if app using geolocator or not
+</script>
+
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+<script>
+  
+  $(window).load(function(){
+    var $mapsCanvas = $('#map-canvas')[0];
+    var mapOptions = {
+      // center: new google.maps.LatLng(-34.397, 150.644),
+      center: {lat: -34.397, lng: 150.644},
+      zoom: 8
+    }
+    var map = new google.maps.Map($mapsCanvas, mapOptions);
+
+    var initialSteps = <%= @steps_json.html_safe %>
+
+    googleApp(map, <%= @trip.id %>, <%= @steps_json.html_safe %> );
+    
+  })
+
+</script>

@@ -1,0 +1,28 @@
+
+[1mFrom:[0m /home/fedetaglia/Documents/webdev/ga/projects/saraluforecast/app/controllers/trips_controller.rb @ line 32 TripsController#show:
+
+    [1;34m13[0m: [32mdef[0m [1;34mshow[0m
+    [1;34m14[0m:   @steps = @trip.steps.order([31m[1;31m'[0m[31mindex asc[1;31m'[0m[31m[0m)
+    [1;34m15[0m:   @steps.each [32mdo[0m |step|
+    [1;34m16[0m:     [32munless[0m step.arrive_on.nil?
+    [1;34m17[0m:       [32mif[0m !step.have_updated_forecast?
+    [1;34m18[0m:         step.make_forecast
+    [1;34m19[0m:       [32mend[0m
+    [1;34m20[0m:     [32mend[0m
+    [1;34m21[0m:   [32mend[0m
+    [1;34m22[0m: 
+    [1;34m23[0m:   @steps_json = [1;34;4mJbuilder[0m.encode [32mdo[0m |json|
+    [1;34m24[0m:     json.array! @steps [32mdo[0m |step|
+    [1;34m25[0m:       json.index step.index
+    [1;34m26[0m:       json.step_id step.id
+    [1;34m27[0m:       json.lng step.lon
+    [1;34m28[0m:       json.lat step.lat
+    [1;34m29[0m:       json.arrive_on step.arrive_on
+    [1;34m30[0m:       json.stay step.stay
+    [1;34m31[0m: 
+ => [1;34m32[0m:       binding.pry
+    [1;34m33[0m:     [32mend[0m
+    [1;34m34[0m:   [32mend[0m
+    [1;34m35[0m: 
+    [1;34m36[0m: [32mend[0m
+
